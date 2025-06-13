@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Luxur Dream Hotel - Admin Login</title>
+<style>
+  /* Reset */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: #4a121d;
+    color: #f8f4f4;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  header, footer {
+    background: #3c0f18;
+    color: #e8d9d9;
+    text-align: center;
+    padding: 16px 0;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 1.5px;
+    font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+    user-select: none;
+  }
+
+  .app-container {
+    flex: 1;
+    max-width: 480px;
+    margin: 3rem auto 4rem;
+    padding: 2.5rem 2rem;
+    background: #5e1c27;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    color: #f8f4f4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  h1 {
+    margin: 0 0 2rem 0;
+    text-align: center;
+    font-size: 2.8rem;
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif;
+    letter-spacing: 3px;
+    font-weight: 700;
+    user-select: none;
+  }
+
+  form {
+    background: #601f2f;
+    border-radius: 12px;
+    padding: 2rem 2.2rem 2.8rem 2.2rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-style: normal;
+    font-size: 1.05rem;
+    color: #dbc7ca;
+  }
+
+  input[type=text], 
+  input[type=password] {
+    width: 100%;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    border: 1px solid #9e7b82;
+    margin-bottom: 1.5rem;
+    background: #5e1c27;
+    color: #f4e8e8;
+    transition: border-color 0.3s ease, background 0.3s ease;
+  }
+  input[type=text]:focus, 
+  input[type=password]:focus {
+    outline: none;
+    border-color: #c46e75;
+    background: #7a2e3a;
+    color: #ffebea;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px 0;
+    font-family: 'Georgia', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #fff5f6;
+    background-color: #a5414f;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover, button:focus {
+    background-color: #812f39;
+  }
+
+  .error-message {
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #d88a8f;
+    text-align: center;
+    user-select: none;
+  }
+
+  .guest-list {
+    margin-top: 3rem;
+    padding: 1.8rem;
+    background: #601f2f;
+    border-radius: 12px;
+    color: #e9dede;
+    font-family: 'Georgia', serif;
+    font-weight: 600;
+    box-shadow: inset 0 0 10px #8b5c69;
+  }
+  .guest-list h2 {
+    margin-bottom: 1.5rem;
+    font-family: 'Cambria', Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 2rem;
+    letter-spacing: 4px;
+    text-align: center;
+    color: #b97f87;
+    user-select: none;
+  }
+  .guest-item {
+    background: #7e3b47;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    font-size: 1.05rem;
+    color: #f0dfdf;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    transition: background-color 0.3s ease, border 0.3s ease;
+    position: relative;
+  }
+  .guest-item.alarm {
+    background-color: #582121;
+    border: 2px solid #ff4747;
+    box-shadow: 0 0 8px 2px #ff4747aa;
+  }
+  .guest-item::after {
+    content: attr(data-alarm-text);
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: #ff4f4f;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .guest-item.alarm::after {
+    display: block;
+  }
+  .guest-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 30px;
+  }
+  .guest-info span {
+    min-width: 120px;
+    white-space: nowrap;
+  }
+
+  @media screen and (max-width: 480px) {
+    .app-container {
+      margin: 2rem 1rem 3rem;
+      padding: 2rem 1.5rem;
+    }
+    h1 {
+      font-size: 2.4rem;
+      letter-spacing: 2.5px;
+    }
+    form {
+      padding: 1.8rem 1.4rem 2.5rem;
+    }
+    input[type=text], input[type=password] {
+      font-size: 0.95rem;
+      padding: 10px 14px;
+    }
+    button {
+      font-size: 1.1rem;
+      padding: 14px 0;
+      border-radius: 10px;
+    }
+    .guest-list h2 {
+      font-size: 1.6rem;
+      letter-spacing: 2px;
+    }
+    .guest-info span {
+      min-width: 90px;
+    }
+  }
+</style>
+</head>
+<body>
+<header>Luxur Dream Hotel</header>
+<div class="app-container">
+
+  <form id="login-form" aria-label="Formulario de acceso de administrador">
+    <h1>Acceso Admin</h1>
+    <label for="username">Usuario</label>
+    <input type="text" id="username" name="username" placeholder="Ingrese usuario" autocomplete="username" required />
+    <label for="password">Contraseña</label>
+    <input type="password" id="password" name="password" placeholder="Ingrese contraseña" autocomplete="current-password" required />
+    <button type="submit" aria-label="Iniciar sesión">Ingresar</button>
+    <div id="login-error" class="error-message" role="alert" aria-live="assertive" style="display:none"></div>
+  </form>
+
+  <form id="guest-form" aria-label="Formulario para registrar huéspedes" style="display:none; margin-top:40px;">
+    <h1>Registrar Huésped</h1>
+    <label for="guest-name">Nombre completo</label>
+    <input type="text" id="guest-name" name="guestName" placeholder="Nombre del huésped" required />
+    <label for="guest-cedula">Cédula</label>
+    <input type="text" id="guest-cedula" name="guestCedula" placeholder="Número de cédula" required />
+    <button type="submit" aria-label="Registrar huésped">Registrar y asignar habitación</button>
+    <div id="cedula-error" class="error-message" role="alert" aria-live="assertive" style="display:none"></div>
+  </form>
+
+  <div id="guest-list" class="guest-list" style="display:none;">
+    <h2>Huéspedes Registrados</h2>
+    <div id="guests-container"></div>
+  </div>
+</div>
+<footer>© 2025 Luxur Dream Hotel</footer>
+
+<script>
+  (() => {
+    const ADMIN_USER = 'admin';
+    const ADMIN_PASS = 'password';
+
+    const loginForm = document.getElementById('login-form');
+    const guestForm = document.getElementById('guest-form');
+    const guestList = document.getElementById('guest-list');
+    const guestsContainer = document.getElementById('guests-container');
+    const loginError = document.getElementById('login-error');
+    const cedulaError = document.getElementById('cedula-error');
+
+    const roomsAvailable = [101,102,103,104,105,106,107,108,109,110];
+    const assignedRooms = new Set();
+    const registeredGuests = [];
+
+    function assignRoom() {
+      for(let room of roomsAvailable){
+        if(!assignedRooms.has(room)){
+          assignedRooms.add(room);
+          return room;
+        }
+      }
+      return null;
+    }
+    function formatTime(date){
+      const pad = n => n.toString().padStart(2, '0');
+      return `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+    }
+    function validateCedula(cedula) {
+      // Accept only digits, length 7-12 for prototype
+      return /^\d{7,12}$/.test(cedula);
+    }
+    function renderGuestList(){
+      guestsContainer.innerHTML = '';
+      if(registeredGuests.length === 0){
+        guestsContainer.innerHTML = '<p style="text-align:center; color:#d7bcbc;">No hay huéspedes registrados todavía.</p>';
+        return;
+      }
+      const now = new Date();
+      for(const guest of registeredGuests){
+        const div = document.createElement('div');
+        div.className = 'guest-item';
+        const elapsedMs = now - guest.checkInDate;
+        const hoursElapsed = elapsedMs / (1000 * 60 * 60);
+        if(hoursElapsed >= 3){
+          div.classList.add('alarm');
+          div.setAttribute('data-alarm-text', '¡Alarma: +3 horas!');
+        } else {
+          div.removeAttribute('data-alarm-text');
+          div.classList.remove('alarm');
+        }
+        const infoDiv = document.createElement('div');
+        infoDiv.className = 'guest-info';
+        infoDiv.innerHTML = `<span><strong>Nombre:</strong> ${guest.name}</span>
+                             <span><strong>Cédula:</strong> ${guest.cedula}</span>
+                             <span><strong>Habitación:</strong> ${guest.room}</span>
+                             <span><strong>Hora ingreso:</strong> ${guest.checkIn}</span>`;
+        div.appendChild(infoDiv);
+        guestsContainer.appendChild(div);
+      }
+    }
+
+    loginForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const user = loginForm.username.value.trim();
+      const pass = loginForm.password.value.trim();
+      if(user === ADMIN_USER && pass === ADMIN_PASS){
+        loginForm.style.display = 'none';
+        guestForm.style.display = 'block';
+        guestList.style.display = 'block';
+        loginError.style.display = 'none';
+      } else {
+        loginError.textContent = 'Usuario o contraseña incorrectos.';
+        loginError.style.display = 'block';
+      }
+    });
+
+    guestForm.addEventListener('submit', e => {
+      e.preventDefault();
+      cedulaError.style.display = 'none';
+
+      const name = guestForm['guestName'].value.trim();
+      const cedula = guestForm['guestCedula'].value.trim();
+
+      if(!name || !cedula) return;
+
+      if(!validateCedula(cedula)){
+        cedulaError.textContent = 'La cédula debe contener solo números y tener entre 7 y 12 dígitos.';
+        cedulaError.style.display = 'block';
+        return;
+      }
+
+      const room = assignRoom();
+      if(room === null){
+        alert('No hay habitaciones disponibles.');
+        return;
+      }
+      const now = new Date();
+      const checkInTime = formatTime(now);
+
+      registeredGuests.push({ name, cedula, room, checkIn: checkInTime, checkInDate: now });
+      guestForm.reset();
+      renderGuestList();
+    });
+
+    // Periodically update alarm status every minute
+    setInterval(() => {
+      if(guestList.style.display === 'block'){ // only if guest list visible
+        renderGuestList();
+      }
+    }, 60000);
+
+  })();
+</script>
+</body>
+</html>
